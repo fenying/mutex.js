@@ -20,16 +20,16 @@ class Lock {
 
     public expiringAt: number;
 
-    public lockedAt: number;
+    public token: string;
 
     public constructor(
-        lockedAt: number,
+        token: string,
         expiringAt: number
     ) {
 
         this.expiringAt = expiringAt;
 
-        this.lockedAt = lockedAt;
+        this.token = token;
     }
 
     public isExpired(): boolean {
@@ -50,7 +50,7 @@ implements Com.IDriver {
 
     public lock(
         key: string,
-        lockedAt: number,
+        token: string,
         expiringAt: number
     ): boolean {
 
@@ -61,21 +61,21 @@ implements Com.IDriver {
             return false;
         }
 
-        this._locks[key] = new Lock(lockedAt, expiringAt);
+        this._locks[key] = new Lock(token, expiringAt);
 
         return true;
     }
 
     public unlock(
         key: string,
-        lockedAt: number
+        token: string
     ): boolean {
 
         let lock = this._locks[key];
 
         if (lock) {
 
-            if (lock.lockedAt === lockedAt) {
+            if (lock.token === token) {
 
                 delete this._locks[key];
                 return true;
@@ -91,7 +91,7 @@ implements Com.IDriver {
 
     public checkLocked(
         key: string,
-        lockedAt: number
+        token: string
     ): boolean {
 
         let lock = this._locks[key];
@@ -105,7 +105,7 @@ implements Com.IDriver {
                 return false;
             }
 
-            if (lock.lockedAt === lockedAt) {
+            if (lock.token === token) {
 
                 return true;
             }

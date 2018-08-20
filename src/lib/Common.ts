@@ -20,13 +20,13 @@ export interface IDriver {
      * Try locking up a mutex.
      *
      * @param key           The key of mutex to be locked.
-     * @param lockedAt      The locked-time of mutex.
+     * @param token         The lock-token of mutex.
      * @param expiringAt    The expiring-time of mutex. It never expires if
      *                      set to 0. Default: 0 (ms)
      */
     lock(
         key: string,
-        lockedAt: number,
+        token: string,
         expiringAt: number
     ): Promise<boolean> | boolean;
 
@@ -34,17 +34,17 @@ export interface IDriver {
      * Unlock a mutex.
      *
      * @param key       The key of mutex to be unlocked.
-     * @param lockedAt  The time of mutex when it's locked.
+     * @param token     The lock-token of mutex.
      */
-    unlock(key: string, lockedAt: number): Promise<boolean> | boolean;
+    unlock(key: string, token: string): Promise<boolean> | boolean;
 
     /**
      * Check if a mutex is locked.
      *
      * @param key       The key of mutex to be checked.
-     * @param lockedAt  The time of mutex when it's locked.
+     * @param token     The lock-token of mutex.
      */
-    checkLocked(key: string, lockedAt: number): Promise<boolean> | boolean;
+    checkLocked(key: string, token: string): Promise<boolean> | boolean;
 }
 
 export interface IFactory {
@@ -126,7 +126,8 @@ export interface IMutex {
     recheckLocked(): Promise<boolean> | boolean;
 
     /**
-     * Try locking up a mutex.
+     * Try locking up a mutex. This is a non-blocking method. It would return
+     * immediately if the mutex is locked by others.
      *
      * Return false if this mutex is already locked (by anyone).
      *

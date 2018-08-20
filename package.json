@@ -1,7 +1,7 @@
 {
   "name": "@litert/mutex",
-  "version": "0.1.0",
-  "description": "A mutex implement for Node.js.",
+  "version": "0.2.0",
+  "description": "A mutex implement for JavaScript.",
   "main": "./lib/index.js",
   "scripts": {
     "prepare": "npm run rebuild",
@@ -29,10 +29,6 @@
   "types": "./lib/index.d.ts",
   "typings": "./lib/index.d.ts",
   "devDependencies": {
-    "@types/node": "^8.10.26",
     "typescript": "^2.9.2"
-  },
-  "engines": {
-    "node": ">=8.0.0"
   }
 }

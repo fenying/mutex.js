@@ -1,15 +1,9 @@
 {
   "name": "@litert/mutex",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
-    "@types/node": {
-      "version": "8.10.26",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-8.10.26.tgz",
-      "integrity": "sha512-opk6bLLErLSwyVVJeSH5Ek7ZWOBSsN0JrvXTNVGLXLAXKB9xlTYajrplR44xVyMrmbut94H6uJ9jqzM/12jxkA==",
-      "dev": true
-    },
     "typescript": {
       "version": "2.9.2",
       "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.9.2.tgz",

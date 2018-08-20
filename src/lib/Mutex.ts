@@ -27,6 +27,8 @@ implements Com.IMutex {
 
     private _lockedAt: number;
 
+    private _token!: string;
+
     private _expiringAt: number;
 
     public constructor(
@@ -79,8 +81,7 @@ implements Com.IMutex {
 
             if (this.isExpired()) {
 
-                this._lockedAt = 0;
-                this._expiringAt = 0;
+                this._cleanUp();
             }
             else {
 
@@ -89,6 +90,10 @@ implements Com.IMutex {
         }
 
         this._lockedAt = Date.now();
+
+        this._token = Math.floor(
+            Math.random() * 0xFFFFFFFF
+        ).toString().padStart(8, "0") + this._lockedAt;
 
         if (ttl || this._ttl) {
 
@@ -101,7 +106,7 @@ implements Com.IMutex {
 
         const result = this._driver.lock(
             this._key,
-            this._lockedAt,
+            this._token,
             this._expiringAt
         );
 
@@ -109,8 +114,7 @@ implements Com.IMutex {
 
             if (!result) {
 
-                this._lockedAt = 0;
-                this._expiringAt = 0;
+                this._cleanUp();
             }
 
             return result;
@@ -120,12 +124,18 @@ implements Com.IMutex {
 
             if (!realResult) {
 
-                this._lockedAt = 0;
-                this._expiringAt = 0;
+                this._cleanUp();
             }
         });
 
         return result;
+    }
+
+    private _cleanUp(): void {
+
+        this._lockedAt = 0;
+        this._expiringAt = 0;
+        delete this._token;
     }
 
     public unlock(): Promise<boolean> | boolean {
@@ -137,20 +147,18 @@ implements Com.IMutex {
 
         if (this.isExpired()) {
 
-            this._lockedAt = 0;
-            this._expiringAt = 0;
+            this._cleanUp();
 
             return true;
         }
 
-        const result = this._driver.unlock(this._key, this._lockedAt);
+        const result = this._driver.unlock(this._key, this._token);
 
         if (typeof result === "boolean") {
 
             if (result) {
 
-                this._lockedAt = 0;
-                this._expiringAt = 0;
+                this._cleanUp();
             }
 
             return result;
@@ -160,8 +168,7 @@ implements Com.IMutex {
 
             if (aResult) {
 
-                this._lockedAt = 0;
-                this._expiringAt = 0;
+                this._cleanUp();
             }
         });
 
@@ -177,20 +184,18 @@ implements Com.IMutex {
 
         if (this.isExpired()) {
 
-            this._lockedAt = 0;
-            this._expiringAt = 0;
+            this._cleanUp();
 
             return false;
         }
 
-        const result = this._driver.checkLocked(this._key, this._lockedAt);
+        const result = this._driver.checkLocked(this._key, this._token);
 
         if (typeof result === "boolean") {
 
             if (!result) {
 
-                this._lockedAt = 0;
-                this._expiringAt = 0;
+                this._cleanUp();
             }
 
             return result;
@@ -200,8 +205,7 @@ implements Com.IMutex {
 
             if (!aResult) {
 
-                this._lockedAt = 0;
-                this._expiringAt = 0;
+                this._cleanUp();
             }
         });
 

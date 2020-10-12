@@ -1,5 +1,5 @@
 /**
- *  Copyright 2018 Angus.Fenying <fenying@litert.org>
+ *  Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-import * as Com from "./Common";
+import * as Com from './Common';
 
 export class Mutex
 implements Com.IMutex {
@@ -93,7 +93,7 @@ implements Com.IMutex {
 
         this._token = Math.floor(
             Math.random() * 0xFFFFFFFF
-        ).toString().padStart(8, "0") + this._lockedAt;
+        ).toString().padStart(8, '0') + this._lockedAt;
 
         if (ttl || this._ttl) {
 
@@ -110,7 +110,7 @@ implements Com.IMutex {
             this._expiringAt
         );
 
-        if (typeof result === "boolean") {
+        if (typeof result === 'boolean') {
 
             if (!result) {
 
@@ -120,6 +120,7 @@ implements Com.IMutex {
             return result;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         result.then((realResult) => {
 
             if (!realResult) {
@@ -135,7 +136,7 @@ implements Com.IMutex {
 
         this._lockedAt = 0;
         this._expiringAt = 0;
-        delete this._token;
+        this._token = undefined as any;
     }
 
     public unlock(): Promise<boolean> | boolean {
@@ -154,7 +155,7 @@ implements Com.IMutex {
 
         const result = this._driver.unlock(this._key, this._token);
 
-        if (typeof result === "boolean") {
+        if (typeof result === 'boolean') {
 
             if (result) {
 
@@ -164,6 +165,7 @@ implements Com.IMutex {
             return result;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         result.then((aResult) => {
 
             if (aResult) {
@@ -191,7 +193,7 @@ implements Com.IMutex {
 
         const result = this._driver.checkLocked(this._key, this._token);
 
-        if (typeof result === "boolean") {
+        if (typeof result === 'boolean') {
 
             if (!result) {
 
@@ -201,6 +203,7 @@ implements Com.IMutex {
             return result;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         result.then((aResult) => {
 
             if (!aResult) {

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2018 Angus.Fenying <fenying@litert.org>
+ *  Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
  *  limitations under the License.
  */
 
-import * as Com from "./Common";
-import Mutex from "./Mutex";
+import * as Com from './Common';
+import Mutex from './Mutex';
 
 class Factory
 implements Com.IFactory {

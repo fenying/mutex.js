@@ -1,5 +1,5 @@
 /**
- *  Copyright 2018 Angus.Fenying <fenying@litert.org>
+ *  Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
  *  limitations under the License.
  */
 
-// tslint:disable:no-console
-
-import * as Mutex from "../lib";
+import * as Mutex from '../lib';
 
 const mf = Mutex.createFactory();
 
-mf.registerType("default", Mutex.createIntraprocessDriver());
+mf.registerType('default', Mutex.createIntraprocessDriver());
 
 let value: number = 0;
 
@@ -29,7 +27,7 @@ function sleep(ms: number): Promise<void> {
     return new Promise<void>((resolve) => setTimeout(resolve, ms));
 }
 
-async function executeByInterval(fn: () => Promise<any>, ms: number) {
+async function executeByInterval(fn: () => Promise<any>, ms: number): Promise<void> {
 
     while (1) {
 
@@ -46,15 +44,15 @@ function now(): number {
     return Date.now() - STARTED_AT;
 }
 
-async function task1() {
+async function task1(): Promise<void> {
 
-    const mutex = mf.createMutex("default", "write-value");
+    const mutex = mf.createMutex('default', 'write-value');
 
     if (await mutex.lock()) {
 
         value = value + 1;
 
-        console.log(JSON.stringify([now(), 1, "started"]) + ",");
+        console.log(JSON.stringify([now(), 1, 'started']) + ',');
 
         await sleep(200);
 
@@ -62,21 +60,21 @@ async function task1() {
     }
     else {
 
-        console.log(JSON.stringify([now(), 1, "failed"]) + ",");
+        console.log(JSON.stringify([now(), 1, 'failed']) + ',');
     }
 
-    console.log(JSON.stringify([now(), 1, "ended"]) + ",");
+    console.log(JSON.stringify([now(), 1, 'ended']) + ',');
 }
 
-async function task2() {
+async function task2(): Promise<void> {
 
-    const mutex = mf.createMutex("default", "write-value");
+    const mutex = mf.createMutex('default', 'write-value');
 
     if (await mutex.lock()) {
 
         value = value + 2;
 
-        console.log(JSON.stringify([now(), 2, "started"]) + ",");
+        console.log(JSON.stringify([now(), 2, 'started']) + ',');
 
         await sleep(500);
 
@@ -84,13 +82,13 @@ async function task2() {
     }
     else {
 
-        console.log(JSON.stringify([now(), 2, "failed"]) + ",");
+        console.log(JSON.stringify([now(), 2, 'failed']) + ',');
     }
 
-    console.log(JSON.stringify([now(), 2, "ended"]) + ",");
+    console.log(JSON.stringify([now(), 2, 'ended']) + ',');
 
 }
 
-executeByInterval(task1, 700);
+executeByInterval(task1, 700).catch(console.error);
 
-executeByInterval(task2, 500);
+executeByInterval(task2, 500).catch(console.error);

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2018 Angus.Fenying <fenying@litert.org>
+ *  Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-import { IFactory } from "./Common";
-import { getDefaultFactory } from "./Factory";
+import { IFactory } from './Common';
+import { getDefaultFactory } from './Factory';
 
-export * from "./Common";
-export * from "./Factory";
-export * from "./Driver.Intraprocess";
+export * from './Common';
+export * from './Factory';
+export * from './Driver.Intraprocess';
 
 const defaultFactory: IFactory = getDefaultFactory();
 

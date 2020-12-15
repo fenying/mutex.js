@@ -1,2 +1,2 @@
-/src/server/dao/**/*.ts
-/*.js
+/commitlint.config.js
+/**/*.js

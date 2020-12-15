@@ -17,6 +17,7 @@ module.exports = {
             'api',
             'doc',
             'lint',
+            'deps',
             'branch',
             'project'
         ]],

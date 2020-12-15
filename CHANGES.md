@@ -1,5 +1,9 @@
 # Changes Logs
 
+## vNEXT
+
+- config(deps): updated development deps.
+
 ## v0.2.1
 
 - Replaced tslint with eslint.
